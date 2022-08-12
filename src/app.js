@@ -1,5 +1,6 @@
+var N = 1;
 var startApp = function () {
-    var url = "https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84";
+    var url = "https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84&page=".concat(N);
     var response = fetch(url, {
         method: "GET"
     })
@@ -7,16 +8,48 @@ var startApp = function () {
         .then(function (data) { return show(data); })["catch"](function (error) {
         console.log(error);
     });
-    // console.log(response)
-    // // show(response)
 };
+var previousBtn = document.getElementById("previousBtn");
+var nextBtn = document.getElementById("nextBtn");
+previousBtn.addEventListener('click', function () {
+    if (N > 1) {
+        N--;
+    }
+    else {
+        return;
+    }
+    console.log(N);
+    removeData();
+    startApp();
+    previousBtn.disabled = true;
+    nextBtn.disabled = false;
+});
+nextBtn.addEventListener('click', function () {
+    N++;
+    console.log(N);
+    removeData();
+    startApp();
+    nextBtn.disabled = true;
+    previousBtn.disabled = false;
+});
 var show = function (response) {
     var result = response.results[0];
     console.log(result);
-    var data1 = result['1'];
-    var data2 = result['2'];
-    for (var _i = 0, data1_1 = data1; _i < data1_1.length; _i++) {
-        var val = data1_1[_i];
+    if (N > 1) {
+        var data = result['2'];
+        page(data);
+    }
+    else {
+        var data = result['1'];
+        page(data);
+    }
+};
+var removeData = function () {
+    document.getElementById("data").innerHTML = "";
+};
+var page = function (data) {
+    for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
+        var val = data_1[_i];
         var tr = document.createElement('tr');
         var td1 = document.createElement('td');
         var td2 = document.createElement('td');
@@ -26,12 +59,6 @@ var show = function (response) {
         td3.innerHTML = val.age;
         tr.append(td1, td2, td3);
         document.getElementById("data").append(tr);
-    }
-    for (var _a = 0, data2_1 = data2; _a < data2_1.length; _a++) {
-        var val = data2_1[_a];
-        var tab = "\n        <tr>\n        <td>".concat(val.row, "</td>\n        <td>").concat(val.gender, "</td>\n        <td>").concat(val.age, "</td>\n        </tr>");
-        console.log(val);
-        document.getElementById("data").append(tab);
     }
 };
 document.addEventListener('DOMContentLoaded', startApp);

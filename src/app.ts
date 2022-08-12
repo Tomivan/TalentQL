@@ -1,5 +1,6 @@
+let N: number = 1
 const startApp = () => {
-    const url = "https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84";
+    const url = `https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84&page=${N}`
     const response =  fetch(url, {
         method: "GET"
     })
@@ -9,13 +10,44 @@ const startApp = () => {
         console.log(error)
     })
 };
+const previousBtn = document.getElementById("previousBtn") as HTMLButtonElement;
+const nextBtn = document.getElementById("nextBtn") as HTMLButtonElement;
+previousBtn.addEventListener('click', () => {
+    if (N > 1) {
+        N--;
+    } else {
+        return;
+    }
+    console.log(N);
+    removeData();
+    startApp();
+    previousBtn.disabled = true;
+    nextBtn.disabled = false;
+});
+
+nextBtn.addEventListener('click', () => {
+    N++;
+    console.log(N);
+    removeData();
+    startApp();
+    nextBtn.disabled = true;
+    previousBtn.disabled = false;
+});
 
 const show = (response: any) => {
     const result = response.results[0]
     console.log(result)
-    const data1 = result['1']
-    const data2 = result['2']
-    page(data1)
+    if (N > 1) {
+        const data = result['2']
+        page(data)
+    } else {
+        const data = result['1']
+        page(data)
+    }
+}
+
+const removeData = () => {
+    document.getElementById("data").innerHTML = "";
 }
 
 const page = (data) => {

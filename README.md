@@ -13,3 +13,6 @@ See full details and instructions (including an interesting paging caveat) in th
 1.  This comes as a purely HTML/CSS/JS project with [Parcel](https://parceljs.org/docs/) handling build and transpilation. 
 2.  We strongly recommend you complete the challenge with this setup, and only use a framework (like Vue/react/Angular) only if absolutely necessary and for which you will be required to provide reasonable justification as part of your evaluation
 
+How does this work?
+
+The function startApp is called when the page is loaded. The startApp function has a function show, which brings the data gotten from the url. The show function has a function page that loops through the data and generates table rows and table data dynamically, then it appears on the UI. When the next button is clicked, there is a function that resets the table body, then the function startApp is called. The previous button is enabled, and the next button is disabled. When the previous button is clicked, there is a function that resets the table body, then the function startApp is called. The previous button is disabled, and the next button is enabled.
